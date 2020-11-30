@@ -102,6 +102,8 @@ public enum TokenType {
                 return "return";
             case INT_KW:
                 return "int";
+            case DOUBLE_KW:
+                return "double";
             case VOID_KW:
                 return "void";
             case UNIT_LITERAL:

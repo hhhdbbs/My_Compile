@@ -14,15 +14,17 @@ import miniplc0java.tokenizer.Tokenizer;
 
 public class App {
 
-    public static void main(String[] args) throws CompileError, IOException {
+    public static void main(String[] args) throws Exception {
         System.out.println( (( 1  & 0xFF )));
         InputStream input;
         PrintStream output;
         DataOutputStream out;
-
-        input = new FileInputStream(new File("C:\\Users\\鸡蛋酱\\IdeaProjects\\miniplc0-java\\src\\main\\java\\miniplc0java\\input.txt"));
-        output = new PrintStream(new FileOutputStream(new File("C:\\Users\\鸡蛋酱\\IdeaProjects\\miniplc0-java\\src\\main\\java\\miniplc0java\\output.txt")));
-        out=new DataOutputStream(new FileOutputStream(new File("C:\\Users\\鸡蛋酱\\IdeaProjects\\miniplc0-java\\src\\main\\java\\miniplc0java\\output.txt")));
+        if(args.length<3)
+            throw new Exception("wrong num");
+        String inputFileName=args[1],outputFileName=args[2];
+        input = new FileInputStream(new File(inputFileName));
+        output = new PrintStream(new FileOutputStream(new File(outputFileName)));
+        out=new DataOutputStream(new FileOutputStream(new File(outputFileName)));
         Scanner scanner;
         scanner = new Scanner(input);
         var iter = new StringIter(scanner);
@@ -95,8 +97,7 @@ public class App {
             out.write(temp);
         }
         else{
-                System.err.println("Please specify either '--analyse' or '--tokenize'.");
-                System.exit(3);
+            throw new Exception("noe writ");
             }
     }
 
