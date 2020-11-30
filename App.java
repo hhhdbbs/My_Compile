@@ -1,12 +1,12 @@
-package miniplc0java;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import miniplc0java.FunctionTable;
+import miniplc0java.OutPutBinary;
+import miniplc0java.Table;
 import miniplc0java.analyser.Analyser;
-import miniplc0java.error.CompileError;
 import miniplc0java.tokenizer.StringIter;
 import miniplc0java.tokenizer.Token;
 import miniplc0java.tokenizer.TokenType;
