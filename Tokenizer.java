@@ -61,8 +61,6 @@ public class Tokenizer {
         StringBuffer v=new StringBuffer();
         char peek;
         String value;
-        peek = it.nextChar();
-        v.append(peek);
         while(it.peekChar()!='\"'){
             peek = it.nextChar();           
             v.append(peek);
@@ -76,8 +74,7 @@ public class Tokenizer {
             }
  
         }
-        peek = it.nextChar();
-        v.append(peek);
+        it.nextChar();
         endPos=it.currentPos();
         value=new String(v);
         return new Token(TokenType.STRING_LITERAL,value,startPos,endPos);
