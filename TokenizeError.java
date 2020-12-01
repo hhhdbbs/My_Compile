@@ -4,13 +4,19 @@ public class TokenizeError extends CompileError {
 
     private ErrorCode err;
     private Pos pos;
-
+    private char c=' ';
     public TokenizeError(ErrorCode err, Pos pos) {
         super();
         this.err = err;
         this.pos = pos;
     }
 
+    public TokenizeError(ErrorCode err, Pos pos,char c) {
+        super();
+        this.err = err;
+        this.pos = pos;
+        this.c=c;
+    }
     public TokenizeError(ErrorCode err, Integer row, Integer col) {
         super();
         this.err = err;
@@ -27,6 +33,6 @@ public class TokenizeError extends CompileError {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Tokenize Error: ").append(err).append(", at: ").append(pos).toString();
+        return new StringBuilder().append("Tokenize Error: ").append(err).append(", at: ").append(pos).append(", get ").append(c).toString();
     }
 }

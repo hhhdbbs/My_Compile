@@ -94,9 +94,9 @@ public class Tokenizer {
             if (peek=='\\') get='\\';
             else if (peek=='\"') get='\"';
             else if (peek=='\'') get='\'';
-            else if (peek=='\n') get='\n';
-            else if (peek=='\r') get='\r';
-            else if (peek=='\t') get='\t';
+            else if (peek=='n') get='\n';
+            else if (peek=='r') get='\r';
+            else if (peek=='t') get='\t';
             else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
         }
         else if (peek!='\''&&peek!='\r'&&peek!='\n'&&peek!='\t'){
