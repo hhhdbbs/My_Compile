@@ -60,7 +60,7 @@ public class App {
             }
         } else if(s.equals("tb")){
             // analyze
-            var analyzer = new Analyser(tokenizer);
+            Analyser analyzer = new Analyser(tokenizer);
             Table table;
             List<FunctionTable> functionTables;
             List<Token> global;
@@ -72,7 +72,7 @@ public class App {
             output.println(bs);
         }else if(s.equals("b")){
             // analyze
-            var analyzer = new Analyser(tokenizer);
+            Analyser analyzer = new Analyser(tokenizer);
             Table table;
             List<FunctionTable> functionTables;
             List<Token> global;
@@ -94,7 +94,7 @@ public class App {
 
 
     private static Tokenizer tokenize(StringIter iter) {
-        var tokenizer = new Tokenizer(iter);
+        Tokenizer tokenizer = new Tokenizer(iter);
         return tokenizer;
     }
 }
