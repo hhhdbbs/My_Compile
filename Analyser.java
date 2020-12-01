@@ -116,7 +116,7 @@ public final class Analyser {
         if ( tokentype== TokenType.INT_KW) {
             return next();
         } else {
-            throw new ExpectedTokenError(List.of(TokenType.INT_KW), next());
+            throw new ExpectedTokenError(getList(TokenType.INT_KW), next());
         }
     }
 
@@ -126,7 +126,7 @@ public final class Analyser {
         if ( tokentype== TokenType.INT_KW||tokentype== TokenType.VOID_KW) {
             return next();
         } else {
-            throw new ExpectedTokenError(List.of(TokenType.INT_KW, TokenType.VOID_KW), next());
+            throw new ExpectedTokenError(getList(TokenType.INT_KW, TokenType.VOID_KW), next());
         }
     }
     private Token expectLiteral() throws CompileError {
@@ -135,7 +135,7 @@ public final class Analyser {
         if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL) {
             return next();
         } else {
-            throw new ExpectedTokenError(List.of(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL), next());
+            throw new ExpectedTokenError(getList(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL), next());
         }
     }
 
@@ -291,7 +291,7 @@ public final class Analyser {
             }else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
                 this.table.addAllInstructions(analyseDeclStmt(),this.deep);
             }else{
-                throw new ExpectedTokenError(List.of(TokenType.FN_KW, TokenType.LET_KW, TokenType.CONST_KW), next());
+                throw new ExpectedTokenError(getList(TokenType.FN_KW, TokenType.LET_KW, TokenType.CONST_KW), next());
             }
         }
         expect(TokenType.EOF);
@@ -325,10 +325,18 @@ public final class Analyser {
         }else if(check(TokenType.CONST_KW)){
             instructions.addAll(analyseConst());
         }else{
-            throw new ExpectedTokenError(List.of( TokenType.LET_KW, TokenType.CONST_KW), next());
+            throw new ExpectedTokenError(getList(TokenType.LET_KW, TokenType.CONST_KW), next());
         }
         return instructions;
     }
+
+    private List<TokenType> getList(TokenType... tokenTypes) {
+        List<TokenType> t=new ArrayList<>();
+        for (TokenType tokenType:tokenTypes)
+            t.add(tokenType);
+        return t;
+    }
+
     private List<Instruction> analyseLet() throws CompileError {
         List <Instruction> instructions=new ArrayList<>();
         expect(TokenType.LET_KW);
@@ -438,7 +446,8 @@ public final class Analyser {
             }
             else{
                 booleanTree=new BooleanTree();
-                booleanTree.setInstructions(new ArrayList<>());
+                List<Instruction> instructions=new ArrayList<>();
+                booleanTree.setInstructions(instructions);
                 booleanTree.setOffset(new Instruction(Operation.br,(long)0));
                 booleanTree.setTrueInstructions(analyseBlockStmt());
                 conditionTree.add(booleanTree);
