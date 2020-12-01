@@ -89,7 +89,7 @@ public class Tokenizer {
         char peek,get;
         it.nextChar();
         peek=it.nextChar();
-        if (peek!='\\'&&peek!='\''){
+        if (peek!='\\'&&peek!='\''&&peek!='\r'&&peek!='\n'&&peek!='\t'){
             get=peek;
         }else if (peek=='\\'){
             peek=it.nextChar();
