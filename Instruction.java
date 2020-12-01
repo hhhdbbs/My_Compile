@@ -93,6 +93,8 @@ public class Instruction {
                 return String.format("%s  %s", this.opt,this.x);
             case call:
                 return String.format("%s  %s", this.opt,this.x);
+            case not:
+                return String.format("%s", this.opt);
             default:
                 return "ILL";
         }
@@ -140,6 +142,8 @@ public class Instruction {
                 return 0x1a;
             case call:
                 return 0x48;
+            case not:
+                return 0x2e;
             default:
                 return -1;
         }

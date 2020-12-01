@@ -70,13 +70,13 @@ public final class Analyser {
         tokentype== TokenType.PLUS||
         tokentype== TokenType.MINUS||
         tokentype== TokenType.MUL||
-        tokentype== TokenType.DIV;/*||
+        tokentype== TokenType.DIV||
         tokentype==TokenType.EQ||
         tokentype==TokenType.NEQ||
         tokentype==TokenType.LT||
         tokentype==TokenType.GT||
         tokentype==TokenType.LE||
-        tokentype==TokenType.GE;   */
+        tokentype==TokenType.GE;
     }
     /**
      * 如果下一个 token 的类型是 tt，则前进一个 token 并返回这个 token
@@ -640,9 +640,6 @@ public final class Analyser {
         BooleanTree booleanTree=new BooleanTree();
         List<Instruction> instructions=new ArrayList<Instruction>();
         Instruction b;
-        int paren_num=0;
-        while (nextIf(TokenType.L_PAREN)!=null)
-            paren_num++;
         instructions.addAll(analyseExpr());
         instructions.addAll(OperatorTree.addAllReset());
         if(nextIf(TokenType.EQ)!=null){
@@ -692,8 +689,6 @@ public final class Analyser {
         }else{
             b=new Instruction(Operation.br_true,(long)-1);
         }
-        for (int i=0;i<paren_num;i++)
-            expect(TokenType.R_PAREN);
         booleanTree.setInstructions(instructions);
         booleanTree.setOffset(b);
         return booleanTree;

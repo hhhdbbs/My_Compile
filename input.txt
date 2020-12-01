@@ -1,6 +1,7 @@
 
 fn foo(y:int)->void{
-while (1<2)
+while (1>=2){
+}
 }
 fn main()->void{
 }
