@@ -51,6 +51,10 @@ public class OperatorTree {
         return instructions;
     }
 
+    public static List<Integer> getStack() {
+        return stack;
+    }
+
     public static List<Instruction> getNewOperator(TokenType tokenType){
         List<Instruction> instructions=new ArrayList<>();
         int next=getInt(tokenType);
@@ -71,10 +75,10 @@ public class OperatorTree {
             }else if(top==3){
                 instructions.add(new Instruction(Operation.div_i));
             }
-            if (stack.size()==0)
-                break;
-            else if(top==4)
+            if(top==4)
                 return instructions;
+            else if (stack.size()==0)
+                break;
             top=stack.get(stack.size()-1);
         }
         stack.add(next);
