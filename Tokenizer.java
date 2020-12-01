@@ -15,27 +15,29 @@ public class Tokenizer {
      */
     public Token nextToken() throws TokenizeError {
         it.readAll();
-
+        Token token=null;
         // 跳过之前的所有空白字符
         skipSpaceCharacters();
 
         if (it.isEOF()) {
-            return new Token(TokenType.EOF, "", it.currentPos(), it.currentPos());
+            token= new Token(TokenType.EOF, "", it.currentPos(), it.currentPos());
         }
 
         char peek = it.peekChar();
         if (Character.isDigit(peek)) {
-           return lexUInt();
+           token= lexUInt();
         } else if (peek=='\"') {
-            return lexSTRING_LITERAL();
+            token=lexSTRING_LITERAL();
         }else if (peek=='\''){
-            return lexCHAR_LITERAL();
+            token=lexCHAR_LITERAL();
         }
         else if (Character.isAlphabetic(peek)||peek=='_') {
-            return lexIdentOrKeyword();
+            token= lexIdentOrKeyword();
         } else {
-           return lexOperatorOrUnknown();
+           token= lexOperatorOrUnknown();
        }
+       System.out.println(token);
+        return token;
     }
 
 

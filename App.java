@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        System.out.println(1+2<1);
         InputStream input;
         PrintStream output;
         DataOutputStream out;
