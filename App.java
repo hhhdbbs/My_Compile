@@ -17,15 +17,15 @@ public class App {
         out=new DataOutputStream(new FileOutputStream(new File(outputFileName)));
         Scanner scanner;
         scanner = new Scanner(input);
-        var iter = new StringIter(scanner);
-        var tokenizer = tokenize(iter);
+        StringIter iter = new StringIter(scanner);
+        Tokenizer tokenizer = tokenize(iter);
         String s=args[0];
         if (s.equals("t")) {
             // tokenize
-            var tokens = new ArrayList<Token>();
+            List<Token> tokens = new ArrayList<Token>();
             try {
                 while (true) {
-                    var token = tokenizer.nextToken();
+                    Token token = tokenizer.nextToken();
                     if (token.getTokenType().equals(TokenType.EOF)) {
                         break;
                     }
@@ -42,7 +42,7 @@ public class App {
             }
         } else if (s.equals("l")) {
             // analyze
-            var analyzer = new Analyser(tokenizer);
+            Analyser analyzer = new Analyser(tokenizer);
             Table table;
             List<FunctionTable> functionTables;
             List<Token> global;
