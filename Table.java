@@ -274,7 +274,11 @@ public class Table {
 
     public void setFuncReturn(String valueString, int deep, Pos startPos, TokenType tokenType) {
         get(valueString,deep,startPos).setTokenType(tokenType);
-        functionTables.get(functionTables.size()-1).setTokenType(tokenType);
+        FunctionTable func=functionTables.get(functionTables.size()-1);
+        func.setTokenType(tokenType);
+        List<SymbolEntry> symbolEntries=func.getSymbolEntries();
+        for (SymbolEntry symbolEntry:symbolEntries)
+            symbolEntry.setOff(symbolEntry.getOff()+1);
     }
 
     public boolean checkOutFunc(String valueString) {
