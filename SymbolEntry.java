@@ -12,7 +12,7 @@ public class SymbolEntry {
      * @param isDeclared
      * @param stackOffset
      */
-    public SymbolEntry(String name,NameType nameType,TokenType tokenType,int deep,boolean isConstant, boolean isDeclared, int stackOffset) {
+    public SymbolEntry(String name, NameType nameType, TokenType tokenType, int deep, boolean isConstant, boolean isDeclared, int stackOffset) {
         this.name=name;
         //proc params var
         this.nametype=nameType;

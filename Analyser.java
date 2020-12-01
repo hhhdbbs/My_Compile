@@ -67,10 +67,10 @@ public final class Analyser {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
         return 
-        tokentype==TokenType.PLUS||
-        tokentype==TokenType.MINUS||
-        tokentype==TokenType.MUL||
-        tokentype==TokenType.DIV;//||;
+        tokentype== TokenType.PLUS||
+        tokentype== TokenType.MINUS||
+        tokentype== TokenType.MUL||
+        tokentype== TokenType.DIV;//||;
    /*     tokentype==TokenType.EQ||
         tokentype==TokenType.NEQ||
         tokentype==TokenType.LT||
@@ -123,7 +123,7 @@ public final class Analyser {
     private Token expectReturnTy() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.INT_KW||tokentype==TokenType.VOID_KW) {
+        if ( tokentype== TokenType.INT_KW||tokentype== TokenType.VOID_KW) {
             return next();
         } else {
             throw new ExpectedTokenError(List.of(TokenType.INT_KW, TokenType.VOID_KW), next());
@@ -132,7 +132,7 @@ public final class Analyser {
     private Token expectLiteral() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.UNIT_LITERAL||tokentype==TokenType.STRING_LITERAL) {
+        if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL) {
             return next();
         } else {
             throw new ExpectedTokenError(List.of(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL), next());
@@ -181,7 +181,7 @@ public final class Analyser {
      * @param curPos        当前 token 的位置（报错用）
      * @throws AnalyzeError 如果重复定义了则抛异常
      */
-    private void addSymbol(Token token,NameType nameType,TokenType tokenType,int deep,boolean isInitialized,boolean isConstant,Pos curPos) throws AnalyzeError {
+    private void addSymbol(Token token, NameType nameType, TokenType tokenType, int deep, boolean isInitialized, boolean isConstant, Pos curPos) throws AnalyzeError {
         String name=token.getValueString();
         if (this.table.get(name,deep,token.getStartPos()) != null) {
             throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
@@ -301,14 +301,14 @@ public final class Analyser {
         expect(TokenType.FN_KW);
         Token nameToken = expect(TokenType.IDENT);
         List<Instruction> instructions;
-        addSymbol(nameToken,NameType.Proc,TokenType.VOID_KW,this.deep,true,true,nameToken.getStartPos());
+        addSymbol(nameToken,NameType.Proc, TokenType.VOID_KW,this.deep,true,true,nameToken.getStartPos());
         expect(TokenType.L_PAREN);
         if(check(TokenType.R_PAREN)==false)
             analyseFunctionParamList();
         expect(TokenType.R_PAREN);
         expect(TokenType.ARROW);
         Token ty=expectReturnTy();
-        if(ty.getTokenType()!=TokenType.VOID_KW){
+        if(ty.getTokenType()!= TokenType.VOID_KW){
             this.table.setFuncReturn(nameToken.getValueString(),this.deep,nameToken.getStartPos(),ty.getTokenType());
         }
         instructions=new ArrayList<>();
@@ -461,7 +461,7 @@ public final class Analyser {
         Token token=expect(TokenType.RETRUN_KW);
         List<Instruction> instructions=new ArrayList<>();
         if(check(TokenType.SEMICOLON)==false){
-            if (this.table.getNowFuncTable().getTokenType()==TokenType.VOID_KW)
+            if (this.table.getNowFuncTable().getTokenType()== TokenType.VOID_KW)
                 throw new AnalyzeError(ErrorCode.WrongReturn, token.getStartPos());
             instructions.add(new Instruction(Operation.arga,(long)0));
             instructions.addAll(analyseExpr());
@@ -599,10 +599,10 @@ public final class Analyser {
     private List<Instruction> analyseLiteralExpr() throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
         Token nameToken=expectLiteral();
-        if(nameToken.getTokenType()==TokenType.STRING_LITERAL){
-            addSymbol(nameToken,NameType.Var,TokenType.STRING_LITERAL,1,true,true,nameToken.getStartPos());
+        if(nameToken.getTokenType()== TokenType.STRING_LITERAL){
+            addSymbol(nameToken,NameType.Var, TokenType.STRING_LITERAL,1,true,true,nameToken.getStartPos());
             instructions.add(getStirngAddress(nameToken));
-        }else if(nameToken.getTokenType()==TokenType.UNIT_LITERAL){
+        }else if(nameToken.getTokenType()== TokenType.UNIT_LITERAL){
             instructions.add(new Instruction(Operation.push, (long)nameToken.getValue()));
         }
         return instructions;

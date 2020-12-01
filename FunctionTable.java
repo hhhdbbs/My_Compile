@@ -1,5 +1,4 @@
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class FunctionTable {
     int deep;
     /** 符号表 */
     List<SymbolEntry> symbolEntries;
-    public FunctionTable(String name,int pos,TokenType tokenType) {
+    public FunctionTable(String name, int pos, TokenType tokenType) {
         this.name=name;//main 这种
         this.pos=pos;
         this.instructions = new ArrayList<>();
@@ -54,7 +53,7 @@ public class FunctionTable {
     }
 
     public int getReturnSoltNmum() {
-        if (tokenType!=TokenType.VOID_KW)
+        if (tokenType!= TokenType.VOID_KW)
             return 1;
         else return 0;
     }

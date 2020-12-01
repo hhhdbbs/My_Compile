@@ -14,17 +14,17 @@ public class OperatorTree {
     };
 
     static int getInt(TokenType tokenType){
-        if(tokenType==TokenType.PLUS){
+        if(tokenType== TokenType.PLUS){
             return 0;
-        }else if(tokenType==TokenType.MINUS){
+        }else if(tokenType== TokenType.MINUS){
             return 1;
-        }else if(tokenType==TokenType.MUL){
+        }else if(tokenType== TokenType.MUL){
             return 2;
-        }else if(tokenType==TokenType.DIV){
+        }else if(tokenType== TokenType.DIV){
             return 3;
-        }else if(tokenType==TokenType.L_PAREN){
+        }else if(tokenType== TokenType.L_PAREN){
             return 4;
-        }else if(tokenType==TokenType.R_PAREN){
+        }else if(tokenType== TokenType.R_PAREN){
             return 5;
         }
         return -1;
