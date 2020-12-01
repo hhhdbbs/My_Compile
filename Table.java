@@ -144,6 +144,15 @@ public class Table {
             this.functionTables.get(this.functionTables.size()-1).getInstructions().addAll(instructions);
     }
 
+    public TokenType getFunctionReturnTy(String name){
+        TokenType tokenType=null;
+        for (FunctionTable func:functionTables) {
+            if(func.getName().equals(name)){
+                return func.getTokenType();
+            }
+        }
+        return null;
+    }
     public List<TokenType> getFunctionParamsType(Token nameToken) throws AnalyzeError {
         boolean flag=false;
         List<TokenType> tokenTypes=new ArrayList<>();
@@ -212,6 +221,12 @@ public class Table {
         if(symbolEntry==null||symbolEntry.getNametype()!=NameType.Proc){
             throw new AnalyzeError(ErrorCode.notHaveMainFunc,new Pos(0,0));
         }
+        List<TokenType> tokenTypes=getFunctionParamsType(new Token(TokenType.IDENT,"main",new Pos(-1,-1),new Pos(-1,-1)));
+        if (tokenTypes.size()!=0)
+            throw new AnalyzeError(ErrorCode.WrongParamsNum,new Pos(0,0));
+        TokenType ty=getFunctionReturnTy("main");
+        if (ty!=TokenType.VOID_KW)
+            throw new AnalyzeError(ErrorCode.NotAllRoutesReturn,new Pos(0,0));
         long id=getGlobalId(new Token(TokenType.IDENT,"main",new Pos(-1,-1),new Pos(-1,-1)));
         addGlobal(new Token(TokenType.IDENT,"_start",new Pos(-1,-1),new Pos(-1,-1)),symbolEntry.isConstant(),NameType.Proc, TokenType.VOID_KW);
         FunctionTable functionTable=new FunctionTable("_start",this.global.size()-1, TokenType.VOID_KW);

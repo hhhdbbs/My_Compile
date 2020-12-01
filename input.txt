@@ -1,5 +1,6 @@
-fn main()->void{
-putstr("123");
-putstr("123");
-putchar('s');
+
+fn foo(x:int)->void{
+x=1;
+}
+fn main()->int{
 }

@@ -396,9 +396,9 @@ public final class Analyser {
         expect(TokenType.COLON);
         Token ty=expectTy();
         if (token==null)
-            addSymbol(nameToken,NameType.Params,ty.getTokenType(),this.deep+1,true,true,nameToken.getStartPos());
-        else
             addSymbol(nameToken,NameType.Params,ty.getTokenType(),this.deep+1,true,false,nameToken.getStartPos());
+        else
+            addSymbol(nameToken,NameType.Params,ty.getTokenType(),this.deep+1,true,true,nameToken.getStartPos());
     }
 
 
