@@ -20,24 +20,31 @@ public class Tokenizer {
         skipSpaceCharacters();
 
         if (it.isEOF()) {
-            token= new Token(TokenType.EOF, "", it.currentPos(), it.currentPos());
+        //    token= new Token(TokenType.EOF, "", it.currentPos(), it.currentPos());
+            return new Token(TokenType.EOF, "", it.currentPos(), it.currentPos());
         }
 
         char peek = it.peekChar();
         if (Character.isDigit(peek)) {
            token= lexUInt();
+        //    return lexUInt();
         } else if (peek=='\"') {
             token=lexSTRING_LITERAL();
+        //   return lexSTRING_LITERAL();
         }else if (peek=='\''){
             token=lexCHAR_LITERAL();
+        //    return lexCHAR_LITERAL();
         }
         else if (Character.isAlphabetic(peek)||peek=='_') {
-            token= lexIdentOrKeyword();
+            token=lexIdentOrKeyword();
+          //  return lexIdentOrKeyword();
         } else {
+        //    return lexOperatorOrUnknown();
            token= lexOperatorOrUnknown();
        }
-       System.out.println(token);
-        return token;
+       if (token.getTokenType()!=TokenType.EOF)
+            System.out.println(token);
+       return token;
     }
 
 
