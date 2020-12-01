@@ -1,4 +1,4 @@
-FROM java:7
+FROM java:
 WORKDIR /app/
 COPY ./* ./
 RUN javac App.java
