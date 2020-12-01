@@ -77,9 +77,7 @@ public class SymbolEntry {
         this.off = off;
     }
 
-    public long getOff() {
-        return off;
-    }
+    public long getOff() { return off; }
 
     public int getDeep() {
         return deep;

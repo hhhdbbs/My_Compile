@@ -1,0 +1,15 @@
+Line: -1 Column: -1 Type: IDENT Value: getint
+Line: -1 Column: -1 Type: IDENT Value: getdouble
+Line: -1 Column: -1 Type: IDENT Value: getchar
+Line: -1 Column: -1 Type: IDENT Value: putint
+Line: -1 Column: -1 Type: IDENT Value: putdouble
+Line: -1 Column: -1 Type: IDENT Value: putchar
+Line: -1 Column: -1 Type: IDENT Value: putstr
+Line: -1 Column: -1 Type: IDENT Value: putln
+Line: 0 Column: 4 Type: IDENT Value: x
+Line: 1 Column: 3 Type: IDENT Value: main
+Line: -1 Column: -1 Type: IDENT Value: _start
+_start pos:10 params:0 var:0 -> 0
+[globa  9, push  1, store_64, stackalloc  0, call  1]
+main pos:9 params:0 var:0 -> 0
+[ret]

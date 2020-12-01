@@ -78,6 +78,15 @@ public class Table {
     public SymbolEntry get(String name, int deep, Pos curPos) {
         int off=-1;
         boolean flag=true;
+        SymbolEntry s=null;
+        for (SymbolEntry symbolEntry : symbolEntries) {
+            off++;
+            if (symbolEntry.getName().equals(name)) {
+                symbolEntry.setOff(off);
+                s=symbolEntry;
+            }
+        }
+        off=-1;
         if(deep>1){
             List<SymbolEntry> symbolEntries=this.functionTables.get(this.functionTables.size()-1).getSymbolEntries();
             String funcname=this.functionTables.get(this.functionTables.size()-1).getName();
@@ -89,21 +98,14 @@ public class Table {
                     off=0;
                     flag=false;
                 }
+
                 if(symbolEntry.getName().equals(name)){
                     symbolEntry.setOff(off);
-                    return symbolEntry;
+                    s=symbolEntry;
                 }
             }
         }
-        off=0;
-        for (SymbolEntry symbolEntry : symbolEntries) {
-            off++;
-            if (symbolEntry.getName().equals(name)) {
-                symbolEntry.setOff(off);
-                return symbolEntry;
-            }
-        }
-        return null;
+        return s;
     }
 
     private SymbolEntry getSymbolEntry(String name) {

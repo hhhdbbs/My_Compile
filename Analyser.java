@@ -183,7 +183,8 @@ public final class Analyser {
      */
     private void addSymbol(Token token, NameType nameType, TokenType tokenType, int deep, boolean isInitialized, boolean isConstant, Pos curPos) throws AnalyzeError {
         String name=token.getValueString();
-        if (this.table.get(name,deep,token.getStartPos()) != null) {
+        SymbolEntry symbolEntry=this.table.get(name,deep,token.getStartPos());
+        if (symbolEntry != null&&symbolEntry.getDeep()==deep) {
             throw new AnalyzeError(ErrorCode.DuplicateDeclaration, curPos);
         }
         else{

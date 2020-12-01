@@ -1,7 +1,2 @@
-fn foo(i: int) -> int {
-    2;
-}
-
-fn main() -> void {
-    1;
-}
+let x:int=1;
+fn main()->void{}
