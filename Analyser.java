@@ -43,7 +43,7 @@ public final class Analyser {
      */
     private Token next() throws TokenizeError {
         if (peekedToken != null) {
-            var token = peekedToken;
+            Token token = peekedToken;
             peekedToken = null;
             return token;
         } else {
@@ -59,13 +59,13 @@ public final class Analyser {
      * @throws TokenizeError
      */
     private boolean check(TokenType tt) throws TokenizeError {
-        var token = peek();
+        Token token = peek();
         return token.getTokenType() == tt;
     }
 
     private boolean checkBinaryOperator() throws TokenizeError {
-        var token = peek();
-        var tokentype=token.getTokenType();
+        Token token = peek();
+        TokenType tokentype=token.getTokenType();
         return 
         tokentype==TokenType.PLUS||
         tokentype==TokenType.MINUS||
@@ -86,7 +86,7 @@ public final class Analyser {
      * @throws TokenizeError
      */
     private Token nextIf(TokenType tt) throws TokenizeError {
-        var token = peek();
+        Token token = peek();
         if (token.getTokenType() == tt) {
             return next();
         } else {
@@ -102,7 +102,7 @@ public final class Analyser {
      * @throws CompileError 如果类型不匹配
      */
     private Token expect(TokenType tt) throws CompileError {
-        var token = peek();
+        Token token = peek();
         if (token.getTokenType() == tt) {
             return next();
         } else {
@@ -111,8 +111,8 @@ public final class Analyser {
     }
 
     private Token expectTy() throws CompileError {
-        var token = peek();
-        var tokentype=token.getTokenType();
+        Token token = peek();
+        TokenType tokentype=token.getTokenType();
         if ( tokentype== TokenType.INT_KW) {
             return next();
         } else {
@@ -121,8 +121,8 @@ public final class Analyser {
     }
 
     private Token expectReturnTy() throws CompileError {
-        var token = peek();
-        var tokentype=token.getTokenType();
+        Token token = peek();
+        TokenType tokentype=token.getTokenType();
         if ( tokentype== TokenType.INT_KW||tokentype==TokenType.VOID_KW) {
             return next();
         } else {
@@ -130,8 +130,8 @@ public final class Analyser {
         }
     }
     private Token expectLiteral() throws CompileError {
-        var token = peek();
-        var tokentype=token.getTokenType();
+        Token token = peek();
+        TokenType tokentype=token.getTokenType();
         if ( tokentype== TokenType.UNIT_LITERAL||tokentype==TokenType.STRING_LITERAL) {
             return next();
         } else {
@@ -200,7 +200,7 @@ public final class Analyser {
     private void declareSymbol(Token token) throws AnalyzeError {
         String name=token.getValueString();
         Pos curPos=token.getStartPos();
-        var entry = this.table.get(name,this.deep,token.getStartPos());
+        SymbolEntry entry = this.table.get(name,this.deep,token.getStartPos());
         if (entry == null) {
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         }else if(entry.getNametype()==NameType.Proc){
@@ -223,7 +223,7 @@ public final class Analyser {
     private int getOffset(Token token) throws AnalyzeError {
         String name=token.getValueString();
         Pos curPos=token.getStartPos();
-        var entry = this.table.get(name,this.deep,curPos);
+        SymbolEntry entry = this.table.get(name,this.deep,curPos);
         if (entry == null) {
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         } else {
@@ -241,7 +241,7 @@ public final class Analyser {
     private boolean isConstant(Token token) throws AnalyzeError {
         String name=token.getValueString();
         Pos curPos=token.getStartPos();
-        var entry = this.table.get(name,this.deep,curPos);
+        SymbolEntry entry = this.table.get(name,this.deep,curPos);
         if (entry == null) {
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         } else {
@@ -252,7 +252,7 @@ public final class Analyser {
     private void expcetNotConstant(Token token) throws AnalyzeError {
         String name=token.getValueString();
         Pos curPos=token.getStartPos();
-        var entry = this.table.get(name,this.deep,curPos);
+        SymbolEntry entry = this.table.get(name,this.deep,curPos);
         if (entry == null) {
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         } else if(entry.isConstant()) {
@@ -269,7 +269,7 @@ public final class Analyser {
     private boolean isInitialized(Token token) throws AnalyzeError {
         String name=token.getValueString();
         Pos curPos=token.getStartPos();
-        var entry = this.table.get(name,this.deep,curPos);
+        SymbolEntry entry = this.table.get(name,this.deep,curPos);
         if(entry==null){
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         }
@@ -299,7 +299,7 @@ public final class Analyser {
 //
     private void analyseFunction() throws CompileError {
         expect(TokenType.FN_KW);
-        var nameToken = expect(TokenType.IDENT);
+        Token nameToken = expect(TokenType.IDENT);
         List<Instruction> instructions;
         addSymbol(nameToken,NameType.Proc,TokenType.VOID_KW,this.deep,true,true,nameToken.getStartPos());
         expect(TokenType.L_PAREN);
@@ -307,7 +307,7 @@ public final class Analyser {
             analyseFunctionParamList();
         expect(TokenType.R_PAREN);
         expect(TokenType.ARROW);
-        var ty=expectReturnTy();
+        Token ty=expectReturnTy();
         if(ty.getTokenType()!=TokenType.VOID_KW){
             this.table.setFuncReturn(nameToken.getValueString(),this.deep,nameToken.getStartPos(),ty.getTokenType());
         }
@@ -332,9 +332,9 @@ public final class Analyser {
     private List<Instruction> analyseLet() throws CompileError {
         List <Instruction> instructions=new ArrayList<>();
         expect(TokenType.LET_KW);
-        var nameToken = expect(TokenType.IDENT);
+        Token nameToken = expect(TokenType.IDENT);
         expect(TokenType.COLON);
-        var ty=expectTy();
+        Token ty=expectTy();
         if(nextIf(TokenType.ASSIGN)!=null){
             addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,false,nameToken.getStartPos());
             //获得变量地址
@@ -353,9 +353,9 @@ public final class Analyser {
     private List<Instruction> analyseConst() throws CompileError {
         List <Instruction> instructions=new ArrayList<>();
         expect(TokenType.CONST_KW);
-        var nameToken = expect(TokenType.IDENT);
+        Token nameToken = expect(TokenType.IDENT);
         expect(TokenType.COLON);
-        var ty=expectTy();
+        Token ty=expectTy();
         addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,true,nameToken.getStartPos());
         expect(TokenType.ASSIGN);
         //获得变量地址
@@ -378,7 +378,7 @@ public final class Analyser {
         Token token=nextIf(TokenType.CONST_KW);
         Token nameToken=expect(TokenType.IDENT);
         expect(TokenType.COLON);
-        var ty=expectTy();
+        Token ty=expectTy();
         if (token==null)
             addSymbol(nameToken,NameType.Params,ty.getTokenType(),this.deep+1,true,true,nameToken.getStartPos());
         else
@@ -557,7 +557,7 @@ public final class Analyser {
                 instructions.addAll(OperatorTree.addAllReset());
             }
             else{
-                var nameToken=next();
+                Token nameToken=next();
                 throw new AnalyzeError(ErrorCode.WrongParamsNum, nameToken.getStartPos());
             }
         }
@@ -598,7 +598,7 @@ public final class Analyser {
 
     private List<Instruction> analyseLiteralExpr() throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
-        var nameToken=expectLiteral();
+        Token nameToken=expectLiteral();
         if(nameToken.getTokenType()==TokenType.STRING_LITERAL){
             addSymbol(nameToken,NameType.Var,TokenType.STRING_LITERAL,1,true,true,nameToken.getStartPos());
             instructions.add(getStirngAddress(nameToken));
@@ -610,7 +610,7 @@ public final class Analyser {
 
     private List<Instruction> analyseOperatorExpr() throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
-        var opetator=next();
+        Token opetator=next();
         instructions.addAll(OperatorTree.getNewOperator(opetator.getTokenType()));
         instructions.addAll(analyseExpr());
         return instructions;
