@@ -359,6 +359,8 @@ public final class Analyser {
             instructions.addAll(OperatorTree.addAllReset());
             instructions.add(new Instruction(Operation.store_64));
         }
+        else if (this.deep==1)
+            addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,false,nameToken.getStartPos());
         else
             addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,false,false,nameToken.getStartPos());
         expect(TokenType.SEMICOLON);
