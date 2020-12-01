@@ -1,5 +1,5 @@
 FROM java:7
 WORKDIR /app/
 COPY ./* ./
-RUN javac App.java
-RUN chmod +x App
+RUN javac miniplc0java/App.java
+RUN chmod +x miniplc0java/App
