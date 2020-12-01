@@ -5,12 +5,12 @@ public class OperatorTree {
     public static List<Integer> stack=new ArrayList<>();
     //+ - * / ( )
     static int priority[][]={
-            {1,1,-1,-1,-1,1},
-            {1,1,-1,-1,-1,1},
-            {1,1,1,1,-1,1},
-            {1,1,1,1,-1,1},
-            {-1,-1,-1,-1,-1,100},
-            {1,1,1,1,0,0}
+            {1,1,-1,-1,-1,1, },
+            {1,1,-1,-1,-1,1,  },
+            {1,1,1,1,-1,1,   },
+            {1,1,1,1,-1,1,  },
+            {-1,-1,-1,-1,-1,100, },
+            {1,1,1,1,0,0 },
     };
 
     static int getInt(TokenType tokenType){

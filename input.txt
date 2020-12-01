@@ -1,9 +1,6 @@
 
 fn foo(y:int)->void{
-if 2{
-let x:int=1;
-}
-let x:int=1;
+while (1<2)
 }
 fn main()->void{
 }
