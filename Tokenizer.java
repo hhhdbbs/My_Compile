@@ -141,7 +141,16 @@ public class Tokenizer {
             case '*':
                 return new Token(TokenType.MUL, "*", startPos, it.currentPos());
             case '/':
-                return new Token(TokenType.DIV, "/", startPos, it.currentPos());
+                char peek=it.peekChar();
+                if (peek=='/'){
+                    char ch=it.nextChar();
+                    while (true){
+                        ch=it.nextChar();
+                        if (ch=='\n')
+                            return nextToken();
+                    }
+                }
+                else return new Token(TokenType.DIV, "/", startPos, it.currentPos());
             case '=':
                 if(it.peekChar()=='='){
                     it.nextChar();
