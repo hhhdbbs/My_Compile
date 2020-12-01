@@ -87,7 +87,7 @@ public class OutPutBinary {
         if(global.getNameType()== NameType.Proc||global.getNameType()==NameType.String||global.getNameType()==NameType.Char)
             return String2bytes(global.getValueString());
         else {
-            if(global.getTokenType()== TokenType.INT_KW)
+            if(global.getTy()== TokenType.INT_KW)
                 return long2bytes(8,0);
             else return null;
         }
