@@ -226,9 +226,7 @@ public class Table {
         List<TokenType> tokenTypes=getFunctionParamsType(new Token(TokenType.IDENT,"main",new Pos(-1,-1),new Pos(-1,-1)));
         if (tokenTypes.size()!=0)
             throw new AnalyzeError(ErrorCode.WrongParamsNum,new Pos(0,0));
-        TokenType ty=getFunctionReturnTy("main");
-        if (ty!=TokenType.VOID_KW)
-            throw new AnalyzeError(ErrorCode.NotAllRoutesReturn,new Pos(0,0));
+
         long id=getGlobalId(new Token(TokenType.IDENT,"main",new Pos(-1,-1),new Pos(-1,-1)));
         addGlobal(new Token(TokenType.IDENT,"_start",new Pos(-1,-1),new Pos(-1,-1)),symbolEntry.isConstant(),NameType.Proc, TokenType.VOID_KW);
         FunctionTable functionTable=new FunctionTable("_start",this.global.size()-1, TokenType.VOID_KW);

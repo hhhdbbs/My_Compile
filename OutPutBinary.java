@@ -31,10 +31,11 @@ public class OutPutBinary {
             List<Byte> global_is_const=int2bytes(1,global.getIs_const());
             output.addAll(global_is_const);
 
-            List<Byte> global_value_count=int2bytes(4,global.getCount());
+            List<Byte> global_value=getValueByte(global);
+
+            List<Byte> global_value_count=int2bytes(4,global_value.size());
             output.addAll(global_value_count);
 
-            List<Byte> global_value=getValueByte(global);
             output.addAll(global_value);
         }
 
@@ -84,8 +85,10 @@ public class OutPutBinary {
     }
 
     private List<Byte> getValueByte(Token global) {
-        if(global.getNameType()== NameType.Proc||global.getNameType()==NameType.String||global.getNameType()==NameType.Char)
+        if(global.getNameType()== NameType.Proc||global.getNameType()==NameType.String)
             return String2bytes(global.getValueString());
+        else if(global.getNameType()==NameType.Char)
+            return Char2bytes((char)global.getValue());
         else {
             if(global.getTy()== TokenType.INT_KW)
                 return long2bytes(8,0);
@@ -93,11 +96,35 @@ public class OutPutBinary {
         }
     }
 
+    private List<Byte> Char2bytes(char value) {
+        List<Byte>  AB=new ArrayList<>();
+        AB.add((byte)(value&0xff));
+        return AB;
+    }
+
     private List<Byte> String2bytes(String valueString) {
         List<Byte>  AB=new ArrayList<>();
-        byte[] bytes=valueString.getBytes();
-        for(byte b:bytes)
-            AB.add(b);
+        for (int i=0;i<valueString.length();i++){
+            char ch=valueString.charAt(i);
+            if (ch!='\\')
+                AB.add((byte)(ch&0xff));
+            else {
+                i++;
+                ch=valueString.charAt(i);
+                if (ch=='\\')
+                    AB.add((byte)('\\'&0xff));
+                else if (ch=='\"')
+                    AB.add((byte)('\"'&0xff));
+                else if (ch=='\'')
+                    AB.add((byte)('\''&0xff));
+                else if (ch=='n')
+                    AB.add((byte)('\n'&0xff));
+                else if (ch=='r')
+                    AB.add((byte)('\r'&0xff));
+                else if (ch=='t')
+                    AB.add((byte)('\t'&0xff));
+            }
+        }
         return AB;
     }
 
