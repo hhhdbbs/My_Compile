@@ -145,6 +145,8 @@ public class Tokenizer {
                 if (peek=='/'){
                     char ch=it.nextChar();
                     while (true){
+                        if (it.isEOF())
+                            return nextToken();
                         ch=it.nextChar();
                         if (ch=='\n')
                             return nextToken();
