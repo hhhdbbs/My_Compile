@@ -1,6 +1,9 @@
 
-fn foo(x:int)->void{
-x=1;
+fn foo(y:int)->void{
+if 2{
+let x:int=1;
 }
-fn main()->int{
+let x:int=1;
+}
+fn main()->void{
 }

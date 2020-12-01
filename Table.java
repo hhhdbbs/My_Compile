@@ -76,31 +76,31 @@ public class Table {
     }
 
     public SymbolEntry get(String name, int deep, Pos curPos) {
-        int off=-1;
+   //     int off=-1;
         boolean flag=true;
         SymbolEntry s=null;
         for (SymbolEntry symbolEntry : symbolEntries) {
-            off++;
+    //        off++;
             if (symbolEntry.getName().equals(name)) {
-                symbolEntry.setOff(off);
+    //            symbolEntry.setOff(off);
                 s=symbolEntry;
             }
         }
-        off=-1;
+    //    off=-1;
         if(deep>1){
             List<SymbolEntry> symbolEntries=this.functionTables.get(this.functionTables.size()-1).getSymbolEntries();
             String funcname=this.functionTables.get(this.functionTables.size()-1).getName();
-            if(getSymbolEntry(funcname).getTokenType()!= TokenType.VOID_KW)
-                off++;
+            if(getSymbolEntry(funcname).getTokenType()!= TokenType.VOID_KW);
+    //            off++;
             for(SymbolEntry symbolEntry:symbolEntries){
-                off++;
+     //           off++;
                 if(flag&&symbolEntry.getNametype()==NameType.Var){
-                    off=0;
+    //                off=0;
                     flag=false;
                 }
 
                 if(symbolEntry.getName().equals(name)){
-                    symbolEntry.setOff(off);
+      //              symbolEntry.setOff(off);
                     s=symbolEntry;
                 }
             }
@@ -120,12 +120,14 @@ public class Table {
         if(deep==1){
             this.addGlobal(token,symbolEntry.isConstant(),symbolEntry.getNametype(),symbolEntry.getTokenType());
             this.symbolEntries.add(symbolEntry);
+            symbolEntry.setOff(symbolEntries.size()-1);
             if(symbolEntry.getNametype()== NameType.Proc){
                 this.functionTables.add(new FunctionTable(symbolEntry.getName(),this.global.size()-1,symbolEntry.getTokenType()));
             }
         }
         else{
-            this.functionTables.get(this.functionTables.size()-1).addSymbolEntry(symbolEntry);
+            FunctionTable func=this.functionTables.get(this.functionTables.size()-1);
+            func.addSymbolEntry(symbolEntry);
         }
     }
 

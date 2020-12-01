@@ -68,12 +68,13 @@ public class FunctionTable {
 
     public void addSymbolEntry(SymbolEntry symbolEntry) {
         this.symbolEntries.add(symbolEntry);
-        if(symbolEntry.getNametype()== NameType.Params)
+        if(symbolEntry.getNametype()== NameType.Params){
             this.paramSoltNum++;
+            symbolEntry.setOff(paramSoltNum-1+getReturnSoltNmum());
+        }
         else{
-            int currentvarSoltNUm=this.symbolEntries.size()-this.paramSoltNum;
-            if(currentvarSoltNUm>this.varSoltNmum)
-                this.varSoltNmum=currentvarSoltNUm;
+            this.varSoltNmum++;
+            symbolEntry.setOff(varSoltNmum-1);
         }
     }
 
@@ -87,4 +88,5 @@ public class FunctionTable {
             else break;
         }
     }
+
 }
