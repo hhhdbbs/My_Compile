@@ -89,9 +89,7 @@ public class Tokenizer {
         char peek,get;
         it.nextChar();
         peek=it.nextChar();
-        if (peek!='\\'&&peek!='\''&&peek!='\r'&&peek!='\n'&&peek!='\t'){
-            get=peek;
-        }else if (peek=='\\'){
+        if (peek=='\\'){
             peek=it.nextChar();
             if (peek=='\\') get='\\';
             else if (peek=='\"') get='\"';
@@ -100,7 +98,11 @@ public class Tokenizer {
             else if (peek=='\r') get='\r';
             else if (peek=='\t') get='\t';
             else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
-        }else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+        }
+        else if (peek!='\''&&peek!='\r'&&peek!='\n'&&peek!='\t'){
+            get=peek;
+        }
+        else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
         peek=it.nextChar();
         if (peek!='\'')
              throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
