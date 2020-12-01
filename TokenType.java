@@ -31,6 +31,8 @@ public enum TokenType {
     UNIT_LITERAL,
     /** 字符串常量 */
     STRING_LITERAL,
+    /** 字符常量 */
+    CHAR_LITERAL,
 
    /** 标识符 */
     IDENT,
@@ -108,6 +110,8 @@ public enum TokenType {
                 return "UNIT_LITERAL";
             case STRING_LITERAL:
                 return "STRING_LITERAL";
+            case CHAR_LITERAL:
+                return "CHAR_LITERAL";
             case IDENT:
                 return "IDENT";
             case PLUS:

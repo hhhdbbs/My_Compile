@@ -118,7 +118,7 @@ public class Token {
 
     public int getCount() {
 
-        if(nameType==NameType.String||nameType==NameType.Proc)
+        if(nameType==NameType.String||nameType==NameType.Proc||nameType==NameType.Char)
             return getValueString().length();
         else {
             if (ty==TokenType.INT_KW)

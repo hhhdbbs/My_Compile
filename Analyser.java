@@ -132,10 +132,10 @@ public final class Analyser {
     private Token expectLiteral() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL) {
+        if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL||tokentype==TokenType.CHAR_LITERAL) {
             return next();
         } else {
-            throw new ExpectedTokenError(getList(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL), next());
+            throw new ExpectedTokenError(getList(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL,TokenType.CHAR_LITERAL), next());
         }
     }
 
@@ -170,7 +170,14 @@ public final class Analyser {
     }
 
     private Instruction getStirngAddress(Token token) throws AnalyzeError {
-        this.table.addGlobal(token,true,NameType.String,null);
+        if (!this.table.IsGlobal(token))
+            this.table.addGlobal(token,true,NameType.String,null);
+        return new Instruction(Operation.push,(long)this.table.getGlobalId(token));
+    }
+
+    private Instruction getCharAddress(Token token) throws AnalyzeError {
+        if (!this.table.IsGlobal(token))
+            this.table.addGlobal(token,true,NameType.Char,null);
         return new Instruction(Operation.push,(long)this.table.getGlobalId(token));
     }
     /**
@@ -610,9 +617,12 @@ public final class Analyser {
         List<Instruction> instructions=new ArrayList<>();
         Token nameToken=expectLiteral();
         if(nameToken.getTokenType()== TokenType.STRING_LITERAL){
-            addSymbol(nameToken,NameType.Var, TokenType.STRING_LITERAL,1,true,true,nameToken.getStartPos());
             instructions.add(getStirngAddress(nameToken));
-        }else if(nameToken.getTokenType()== TokenType.UNIT_LITERAL){
+        }else if(nameToken.getTokenType()== TokenType.CHAR_LITERAL) {
+            //addSymbol(nameToken, NameType.Char, TokenType.CHAR_LITERAL, 1, true, true, nameToken.getStartPos());
+            instructions.add(getCharAddress(nameToken));
+        }
+        else if(nameToken.getTokenType()== TokenType.UNIT_LITERAL){
             instructions.add(new Instruction(Operation.push, (long)nameToken.getValue()));
         }
         return instructions;

@@ -28,12 +28,16 @@ public class Tokenizer {
            return lexUInt();
         } else if (peek=='\"') {
             return lexSTRING_LITERAL();
-        } else if (Character.isAlphabetic(peek)||peek=='_') {
+        }else if (peek=='\''){
+            return lexCHAR_LITERAL();
+        }
+        else if (Character.isAlphabetic(peek)||peek=='_') {
             return lexIdentOrKeyword();
         } else {
            return lexOperatorOrUnknown();
        }
     }
+
 
     private Token lexUInt() throws TokenizeError {
         char peek;
@@ -61,6 +65,7 @@ public class Tokenizer {
         StringBuffer v=new StringBuffer();
         char peek;
         String value;
+        it.nextChar();
         while(it.peekChar()!='\"'){
             peek = it.nextChar();           
             v.append(peek);
@@ -78,6 +83,29 @@ public class Tokenizer {
         endPos=it.currentPos();
         value=new String(v);
         return new Token(TokenType.STRING_LITERAL,value,startPos,endPos);
+    }
+    private Token lexCHAR_LITERAL() throws TokenizeError {
+        Pos startPos=it.currentPos(),endPos;
+        char peek,get;
+        it.nextChar();
+        peek=it.nextChar();
+        if (peek!='\\'&&peek!='\''){
+            get=peek;
+        }else if (peek=='\\'){
+            peek=it.nextChar();
+            if (peek=='\\') get='\\';
+            else if (peek=='\"') get='\"';
+            else if (peek=='\'') get='\'';
+            else if (peek=='\n') get='\n';
+            else if (peek=='\r') get='\r';
+            else if (peek=='\t') get='\t';
+            else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+        }else throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+        peek=it.nextChar();
+        if (peek!='\'')
+             throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+        endPos=it.currentPos();
+        return new Token(TokenType.CHAR_LITERAL,get,startPos,endPos);
     }
     private Token lexIdentOrKeyword() throws TokenizeError {
         Pos startPos=it.currentPos(),endPos;

@@ -84,7 +84,7 @@ public class OutPutBinary {
     }
 
     private List<Byte> getValueByte(Token global) {
-        if(global.getNameType()== NameType.Proc||global.getNameType()==NameType.String)
+        if(global.getNameType()== NameType.Proc||global.getNameType()==NameType.String||global.getNameType()==NameType.Char)
             return String2bytes(global.getValueString());
         else {
             if(global.getTokenType()== TokenType.INT_KW)

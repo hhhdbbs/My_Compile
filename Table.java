@@ -190,6 +190,13 @@ public class Table {
         throw new AnalyzeError(ErrorCode.NotGlobal, token.getStartPos());
     }
 
+    public boolean IsGlobal(Token token)  {
+        for(Token s:global){
+            if(s.getValueString().equals(token.getValueString())&&s.getTokenType()==token.getTokenType())
+                return true;
+        }
+        return false;
+    }
     public void addGlobal(Token token, boolean isConstant, NameType nameType, TokenType ty){
         token.setNameType(nameType);
         token.setTy(ty);

@@ -1,2 +1,5 @@
-let x:int=1;
-fn main()->void{}
+fn main()->void{
+putstr("123");
+putstr("123");
+putchar('s');
+}
