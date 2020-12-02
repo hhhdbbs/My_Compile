@@ -176,9 +176,10 @@ public final class Analyser {
     }
 
     private Instruction getCharAddress(Token token) throws AnalyzeError {
-        if (!this.table.IsGlobal(token))
-            this.table.addGlobal(token,true,NameType.Char,null);
-        return new Instruction(Operation.push,(long)this.table.getGlobalId(token));
+     //   if (!this.table.IsGlobal(token))
+     //       this.table.addGlobal(token,true,NameType.Char,null);
+    //    return new Instruction(Operation.push,(long)this.table.getGlobalId(token));
+        return new Instruction(Operation.push,(long)((char)token.getValue()&0xff));
     }
     /**
      * 添加一个符号
