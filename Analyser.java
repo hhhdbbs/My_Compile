@@ -543,7 +543,6 @@ public final class Analyser {
     private List<Instruction> analyseCallExpr(Token nameToken) throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
         List<TokenType> tokenTypes=this.table.getFunctionParamsType(nameToken);
-
         instructions.addAll(this.table.addstackllocInstruction(nameToken.getValueString()));
 
         expect(TokenType.L_PAREN);
@@ -567,14 +566,18 @@ public final class Analyser {
 
     private List<Instruction> analyseCallParamList(List<TokenType> tokenTypes) throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
+        instructions.addAll(OperatorTree.getNewOperator(TokenType.L_PAREN));
         instructions.addAll(analyseExpr());
-        instructions.addAll(OperatorTree.addAllReset());
+        instructions.addAll(OperatorTree.getNewOperator(TokenType.R_PAREN));
+      //  instructions.addAll(OperatorTree.addAllReset());
         int i;
         for(i=1;i<tokenTypes.size();i++){
             if(check(TokenType.COMMA)){
                 expect(TokenType.COMMA);
+                instructions.addAll(OperatorTree.getNewOperator(TokenType.L_PAREN));
                 instructions.addAll(analyseExpr());
-                instructions.addAll(OperatorTree.addAllReset());
+                instructions.addAll(OperatorTree.getNewOperator(TokenType.R_PAREN));
+            //    instructions.addAll(OperatorTree.addAllReset());
             }
             else{
                 Token nameToken=next();
