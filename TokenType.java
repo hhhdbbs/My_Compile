@@ -42,6 +42,8 @@ public enum TokenType {
     PLUS,
     /** 减号 */
     MINUS,
+    /** 负号 */
+    NEG,
     /** 乘号 */
     MUL,
     /** 除号 */

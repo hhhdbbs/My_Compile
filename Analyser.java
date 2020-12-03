@@ -533,10 +533,9 @@ public final class Analyser {
 
     private List<Instruction> analyseNegateExpr() throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
-        instructions.add(new Instruction(Operation.push,(long)0));
-        expect(TokenType.MINUS);
+        Token token=expect(TokenType.MINUS);
+        instructions.addAll(OperatorTree.getNewOperator(TokenType.NEG));
         instructions.addAll(analyseExpr());
-        instructions.add(new Instruction(Operation.sub_i));
         return instructions;
     }
 

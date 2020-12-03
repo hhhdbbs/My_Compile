@@ -1,3 +1,6 @@
+fn x()->int{
+1+-2*(2+-3);
+}
 fn main()->void{
-putchar('a');
+putint(x());
 }
