@@ -591,6 +591,7 @@ public final class Analyser {
         instructions.add(getVarOrParamAddress(nameToken));
         expect(TokenType.ASSIGN);
         instructions.addAll(analyseExpr());
+        instructions.addAll(OperatorTree.addAllReset());
         instructions.add(new Instruction(Operation.store_64));
         declareSymbol(nameToken);
         return instructions;
