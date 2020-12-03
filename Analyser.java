@@ -485,6 +485,7 @@ public final class Analyser {
                 throw new AnalyzeError(ErrorCode.WrongReturn, token.getStartPos());
             instructions.add(new Instruction(Operation.arga,(long)0));
             instructions.addAll(analyseExpr());
+            instructions.addAll(OperatorTree.addAllReset());
             instructions.add(new Instruction(Operation.store_64));
         }
         instructions.add(new Instruction(Operation.ret));
