@@ -325,6 +325,8 @@ public final class Analyser {
         instructions.addAll(analyseBlockStmt());
         instructions.add(new Instruction(Operation.ret));
         this.table.addAllInstructions(instructions,this.deep+1);
+        if (!this.table.isInitialized())
+            throw new AnalyzeError(ErrorCode.NotAllRoutesReturn, nameToken.getStartPos());
     }
 
     private List<Instruction> analyseDeclStmt() throws CompileError {
@@ -487,6 +489,7 @@ public final class Analyser {
             instructions.addAll(analyseExpr());
             instructions.addAll(OperatorTree.addAllReset());
             instructions.add(new Instruction(Operation.store_64));
+            this.table.getFuncReturn();
         }
         instructions.add(new Instruction(Operation.ret));
         expect(TokenType.SEMICOLON);
