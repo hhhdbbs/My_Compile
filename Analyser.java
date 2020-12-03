@@ -423,7 +423,13 @@ public final class Analyser {
             }//break continue
             else if(check(TokenType.RETRUN_KW)){
                 instructions.addAll(analyseReturnStmt());
-            } 
+            }
+            else if(check(TokenType.BREAK_KW)){
+                instructions.addAll(analyseBreakStmt());
+            }
+            else if(check(TokenType.CONTINUE_KW)){
+                instructions.addAll(analyseContinueStmt());
+            }
             else if(check(TokenType.L_BRACE)){
                 instructions.addAll(analyseBlockStmt());
             }
@@ -442,6 +448,21 @@ public final class Analyser {
         return instructions;
     }
 
+    private List<Instruction> analyseBreakStmt() throws CompileError {
+        List<Instruction> instructions=new ArrayList<>();
+        expect(TokenType.BREAK_KW);
+        instructions.add(new Instruction(Operation.break_kw,(long)0));
+        expect(TokenType.SEMICOLON);
+        return instructions;
+    }
+
+    private List<Instruction> analyseContinueStmt() throws CompileError {
+        List<Instruction> instructions=new ArrayList<>();
+        expect(TokenType.CONTINUE_KW);
+        instructions.add(new Instruction(Operation.continue_kw,(long)0));
+        expect(TokenType.SEMICOLON);
+        return instructions;
+    }
     private List<Instruction> analyseIfStmt() throws CompileError {
         expect(TokenType.IF_KW);
         BooleanTree booleanTree;
