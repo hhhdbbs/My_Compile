@@ -19,6 +19,10 @@ public enum TokenType {
     ELSE_KW,
     /** return */
     RETRUN_KW,
+    /** break */
+    BREAK_KW,
+    /** continue */
+    CONTINUE_KW,
     /** int */
     INT_KW,
     /** double */
@@ -102,6 +106,10 @@ public enum TokenType {
                 return "else";
             case RETRUN_KW:
                 return "return";
+            case BREAK_KW:
+                return "break";
+            case CONTINUE_KW:
+                return "continue";
             case INT_KW:
                 return "int";
             case DOUBLE_KW:
