@@ -70,7 +70,13 @@ public class Tokenizer {
 
             }
             if(it.peekChar()=='e'||it.peekChar()=='E'){
+                boolean flag=false;
                 it.nextChar();
+                if (it.peekChar()=='-'){
+                    flag=true;
+                    it.nextChar();
+                }
+
                 value=(long)0;//in1=(long)1;
                 peek = it.nextChar();
                 value=value*(long)10+Long.parseLong(String.valueOf(peek));
@@ -80,10 +86,18 @@ public class Tokenizer {
                         //     if(value>(in1<<31)-1)
                         //       throw new TokenizeError(ErrorCode.IntegerOverflow,it.currentPos());
                     }
-                    while (value>0){
-                        value--;
-                        doublevalue*=10;
+                    if (flag){
+                        while (value>0){
+                            value--;
+                            doublevalue/=10;
+                        }
+                    }else {
+                        while (value>0){
+                            value--;
+                            doublevalue*=10;
+                        }
                     }
+
             }
             endPos=it.currentPos();
             return new Token(TokenType.DOUBLE_LITERAL,doublevalue,startPos,endPos);
