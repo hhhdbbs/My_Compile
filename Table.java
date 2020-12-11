@@ -160,6 +160,7 @@ public class Table {
         List<TokenType> tokenTypes=new ArrayList<>();
         for (FunctionTable func:functionTables) {
             if(func.getName().equals(nameToken.getValueString())){
+                OperatorTree.types.add(func.getTokenType());
                 flag=true;
                 for (SymbolEntry symbolEntry:func.getSymbolEntries()){
                     if(symbolEntry.getNametype()==NameType.Params){
