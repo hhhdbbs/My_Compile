@@ -354,7 +354,6 @@ public final class Analyser {
         Token ty=expectTy();
 
         if(nextIf(TokenType.ASSIGN)!=null){
-            OperatorTree.types.add(ty.getTokenType());
             addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,false,nameToken.getStartPos());
             //获得变量地址
             instructions.add(getVarOrParamAddress(nameToken));
@@ -379,7 +378,6 @@ public final class Analyser {
         Token ty=expectTy();
         addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,true,nameToken.getStartPos());
         expect(TokenType.ASSIGN);
-        OperatorTree.types.add(ty.getTokenType());
         //获得变量地址
         instructions.add(getVarOrParamAddress(nameToken));
         instructions.addAll(analyseExpr());
