@@ -42,8 +42,8 @@ public class Tokenizer {
         //    return lexOperatorOrUnknown();
            token= lexOperatorOrUnknown();
        }
-       if (token.getTokenType()!=TokenType.EOF)
-            System.out.println(token);
+    //   if (token.getTokenType()!=TokenType.EOF)
+    //        System.out.println(token);
        return token;
     }
 
