@@ -506,6 +506,7 @@ public final class Analyser {
         if(check(TokenType.SEMICOLON)==false){
             if (this.table.getNowFuncTable().getTokenType()== TokenType.VOID_KW)
                 throw new AnalyzeError(ErrorCode.WrongReturn, token.getStartPos());
+            OperatorTree.types.add(this.table.getNowFuncTable().getTokenType());
             instructions.add(new Instruction(Operation.arga,(long)0));
             instructions.addAll(analyseExpr());
             instructions.addAll(OperatorTree.addAllReset());
