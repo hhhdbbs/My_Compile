@@ -43,7 +43,7 @@ public class Tokenizer {
            token= lexOperatorOrUnknown();
        }
        if (token.getTokenType()!=TokenType.EOF)
-            System.out.println(token);
+            System.out.println(token.getValue());
        return token;
     }
 
