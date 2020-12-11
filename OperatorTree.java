@@ -269,7 +269,7 @@ public class OperatorTree {
         if(types.size()==2&&types.get(0)!=types.get(1))
             throw new AnalyzeError(ErrorCode.AssignToWrongType, new Pos(-1,-1));
         else {
-            for(int i=0;i<types.size();i++)
+            for(int i=types.size()-1;i>=0;i--)
                 types.remove(i);
         }
         return instructions;

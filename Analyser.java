@@ -153,6 +153,7 @@ public final class Analyser {
         String value=token.getValueString();
         Pos curPos=token.getStartPos();
         SymbolEntry symbolEntry=this.table.get(value,this.deep,token.getStartPos());
+        OperatorTree.types.add(symbolEntry.getTokenType());
         if(symbolEntry==null)
             throw new AnalyzeError(ErrorCode.NotDeclared, curPos);
         Long off=symbolEntry.getOff();
@@ -642,7 +643,7 @@ public final class Analyser {
         List<Instruction> instructions=new ArrayList<>();
         instructions.add(getVarOrParamAddress(nameToken));
         instructions.add(new Instruction(Operation.load_64));
-        OperatorTree.types.add(nameToken.getTokenType());
+
         return instructions;
     }
 
