@@ -124,6 +124,8 @@ public enum TokenType {
                 return "void";
             case UNIT_LITERAL:
                 return "UNIT_LITERAL";
+            case DOUBLE_LITERAL:
+                return "DOUBLE_LITERAL";
             case STRING_LITERAL:
                 return "STRING_LITERAL";
             case CHAR_LITERAL:

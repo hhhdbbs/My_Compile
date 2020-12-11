@@ -602,6 +602,7 @@ public final class Analyser {
                 instructions.addAll(OperatorTree.getNewOperator(TokenType.L_PAREN));
                 instructions.addAll(analyseExpr());
                 instructions.addAll(OperatorTree.getNewOperator(TokenType.R_PAREN));
+                OperatorTree.types.remove(OperatorTree.types.size()-1);
             //    instructions.addAll(OperatorTree.addAllReset());
             }
             else{
