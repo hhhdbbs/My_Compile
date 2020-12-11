@@ -649,14 +649,16 @@ public final class Analyser {
         List<Instruction> instructions=new ArrayList<>();
         Token nameToken=expectLiteral();
         if(nameToken.getTokenType()== TokenType.STRING_LITERAL){
+            OperatorTree.types.add(TokenType.INT_KW);
             instructions.add(getStirngAddress(nameToken));
         }else if(nameToken.getTokenType()== TokenType.CHAR_LITERAL) {
             //addSymbol(nameToken, NameType.Char, TokenType.CHAR_LITERAL, 1, true, true, nameToken.getStartPos());
+            OperatorTree.types.add(TokenType.INT_KW);
             instructions.add(getCharAddress(nameToken));
         }
         else if(nameToken.getTokenType()== TokenType.UNIT_LITERAL){
-            instructions.add(new Instruction(Operation.push, (long)nameToken.getValue()));
             OperatorTree.types.add(TokenType.INT_KW);
+            instructions.add(new Instruction(Operation.push, (long)nameToken.getValue()));
         }
         else if(nameToken.getTokenType()== TokenType.DOUBLE_LITERAL){
             instructions.add(new Instruction(Operation.push, Double.doubleToRawLongBits((double)nameToken.getValue())));
