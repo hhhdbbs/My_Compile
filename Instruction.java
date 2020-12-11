@@ -61,15 +61,25 @@ public class Instruction {
                 return String.format("%s  %s", this.opt,this.x);
             case add_i:
                 return String.format("%s", this.opt);
+            case add_f:
+                return String.format("%s", this.opt);
             case sub_i:
+                return String.format("%s", this.opt);
+            case sub_f:
                 return String.format("%s", this.opt);
             case mul_i:
                 return String.format("%s", this.opt);
+            case mul_f:
+                return String.format("%s", this.opt);
             case div_i:
+                return String.format("%s", this.opt);
+            case div_f:
                 return String.format("%s", this.opt);
             case store_64:
                 return String.format("%s", this.opt);
             case cmp_i:
+                return String.format("%s", this.opt);
+            case cmp_f:
                 return String.format("%s", this.opt);
             case push:
                 return String.format("%s  %s", this.opt,this.x);
@@ -97,6 +107,12 @@ public class Instruction {
                 return String.format("%s", this.opt);
             case neg_i:
                 return String.format("%s", this.opt);
+            case neg_f:
+                return String.format("%s", this.opt);
+            case ftoi:
+                return String.format("%s", this.opt);
+            case itof:
+                return String.format("%s", this.opt);
             default:
                 return "ILL";
         }
@@ -112,16 +128,26 @@ public class Instruction {
                 return 0xc;
             case add_i:
                 return 0x20;
+            case add_f:
+                return 0x24;
             case sub_i:
                 return 0x21;
+            case sub_f:
+                return 0x25;
             case mul_i:
                 return 0x22;
+            case mul_f:
+                return 0x26;
             case div_i:
                 return 0x23;
+            case div_f:
+                return 0x27;
             case store_64:
                 return 0x17;
             case cmp_i:
                 return 0x30;
+            case cmp_f:
+                return 0x32;
             case push:
                 return 0x1;
             case set_lt:
@@ -148,6 +174,12 @@ public class Instruction {
                 return 0x2e;
             case neg_i:
                 return 0x34;
+            case neg_f:
+                return 0x35;
+            case itof:
+                return 0x36;
+            case ftoi:
+                return 0x37;
             default:
                 return -1;
         }

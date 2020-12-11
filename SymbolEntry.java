@@ -91,5 +91,4 @@ public class SymbolEntry {
         this.tokenType = tokenType;
     }
 
-
 }

@@ -113,29 +113,29 @@ public final class Analyser {
     private Token expectTy() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.INT_KW) {
+        if ( tokentype== TokenType.INT_KW||tokentype==TokenType.DOUBLE_KW) {
             return next();
         } else {
-            throw new ExpectedTokenError(getList(TokenType.INT_KW), next());
+            throw new ExpectedTokenError(getList(TokenType.INT_KW,TokenType.DOUBLE_KW), next());
         }
     }
 
     private Token expectReturnTy() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.INT_KW||tokentype== TokenType.VOID_KW) {
+        if ( tokentype== TokenType.INT_KW||tokentype== TokenType.VOID_KW||tokentype==TokenType.DOUBLE_KW) {
             return next();
         } else {
-            throw new ExpectedTokenError(getList(TokenType.INT_KW, TokenType.VOID_KW), next());
+            throw new ExpectedTokenError(getList(TokenType.INT_KW, TokenType.VOID_KW,TokenType.DOUBLE_KW), next());
         }
     }
     private Token expectLiteral() throws CompileError {
         Token token = peek();
         TokenType tokentype=token.getTokenType();
-        if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL||tokentype==TokenType.CHAR_LITERAL) {
+        if ( tokentype== TokenType.UNIT_LITERAL||tokentype== TokenType.STRING_LITERAL||tokentype==TokenType.CHAR_LITERAL||tokentype== TokenType.DOUBLE_LITERAL) {
             return next();
         } else {
-            throw new ExpectedTokenError(getList(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL,TokenType.CHAR_LITERAL), next());
+            throw new ExpectedTokenError(getList(TokenType.UNIT_LITERAL, TokenType.STRING_LITERAL,TokenType.CHAR_LITERAL,TokenType.DOUBLE_LITERAL), next());
         }
     }
 
@@ -176,9 +176,6 @@ public final class Analyser {
     }
 
     private Instruction getCharAddress(Token token) throws AnalyzeError {
-     //   if (!this.table.IsGlobal(token))
-     //       this.table.addGlobal(token,true,NameType.Char,null);
-    //    return new Instruction(Operation.push,(long)this.table.getGlobalId(token));
         return new Instruction(Operation.push,(long)((char)token.getValue()&0xff));
     }
     /**
@@ -354,7 +351,9 @@ public final class Analyser {
         Token nameToken = expect(TokenType.IDENT);
         expect(TokenType.COLON);
         Token ty=expectTy();
+
         if(nextIf(TokenType.ASSIGN)!=null){
+            OperatorTree.types.add(ty.getTokenType());
             addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,false,nameToken.getStartPos());
             //获得变量地址
             instructions.add(getVarOrParamAddress(nameToken));
@@ -379,6 +378,7 @@ public final class Analyser {
         Token ty=expectTy();
         addSymbol(nameToken,NameType.Var,ty.getTokenType(),this.deep,true,true,nameToken.getStartPos());
         expect(TokenType.ASSIGN);
+        OperatorTree.types.add(ty.getTokenType());
         //获得变量地址
         instructions.add(getVarOrParamAddress(nameToken));
         instructions.addAll(analyseExpr());
@@ -547,11 +547,11 @@ public final class Analyser {
             instructions.addAll(analyseLiteralExpr());
         }
 
+        if(check(TokenType.AS_KW)){
+            instructions.addAll(analyseAsExpr());//没有语句
+        }
         if(checkBinaryOperator()){
             instructions.addAll(analyseOperatorExpr());
-        }
-        else if(check(TokenType.AS_KW)){
-            instructions.addAll(analyseAsExpr());//没有语句
         }
         return instructions;
     }
@@ -641,6 +641,7 @@ public final class Analyser {
         List<Instruction> instructions=new ArrayList<>();
         instructions.add(getVarOrParamAddress(nameToken));
         instructions.add(new Instruction(Operation.load_64));
+        OperatorTree.types.add(nameToken.getTokenType());
         return instructions;
     }
 
@@ -655,6 +656,11 @@ public final class Analyser {
         }
         else if(nameToken.getTokenType()== TokenType.UNIT_LITERAL){
             instructions.add(new Instruction(Operation.push, (long)nameToken.getValue()));
+            OperatorTree.types.add(TokenType.INT_KW);
+        }
+        else if(nameToken.getTokenType()== TokenType.DOUBLE_LITERAL){
+            instructions.add(new Instruction(Operation.push, Double.doubleToRawLongBits((double)nameToken.getValue())));
+            OperatorTree.types.add(TokenType.DOUBLE_KW);
         }
         return instructions;
     }
@@ -727,10 +733,21 @@ public final class Analyser {
     private List<Instruction> analyseAsExpr() throws CompileError {
         Token ty=null;
         List<Instruction> instructions=new ArrayList<>();
-        instructions.addAll(OperatorTree.addAllReset());
+    //    instructions.addAll(OperatorTree.addAllReset());
         while(check(TokenType.AS_KW)){
             expect(TokenType.AS_KW);
             ty=expectTy();
+        }
+        TokenType topty=OperatorTree.types.get(OperatorTree.types.size()-1);
+    //    OperatorTree.types.remove(OperatorTree.types.size()-1);
+        if(ty.getTokenType()==TokenType.INT_KW&&topty==TokenType.DOUBLE_KW){
+            instructions.add(new Instruction(Operation.ftoi));
+            OperatorTree.types.remove(OperatorTree.types.size()-1);
+            OperatorTree.types.add(TokenType.INT_KW);
+        }else if(ty.getTokenType()==TokenType.DOUBLE_KW&&topty==TokenType.INT_KW){
+            instructions.add(new Instruction(Operation.itof));
+            OperatorTree.types.remove(OperatorTree.types.size()-1);
+            OperatorTree.types.add(TokenType.DOUBLE_KW);
         }
         return instructions;
     }

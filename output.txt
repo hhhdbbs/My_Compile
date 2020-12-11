@@ -6,12 +6,9 @@ Line: -1 Column: -1 Type: IDENT Value: putdouble
 Line: -1 Column: -1 Type: IDENT Value: putchar
 Line: -1 Column: -1 Type: IDENT Value: putstr
 Line: -1 Column: -1 Type: IDENT Value: putln
-Line: 0 Column: 3 Type: IDENT Value: fib
-Line: 9 Column: 3 Type: IDENT Value: main
+Line: 0 Column: 3 Type: IDENT Value: main
 Line: -1 Column: -1 Type: IDENT Value: _start
-_start pos:10 params:0 var:0 -> 0
-[stackalloc  0, call  2]
-fib pos:8 params:0 var:0 -> 0
-[br  0, push  1, br_true  1, br  5, push  2, br  -6, br  2, push  3, br  -8, push  3, ret]
-main pos:9 params:0 var:0 -> 0
-[ret]
+_start pos:9 params:0 var:0 -> 0
+[stackalloc  0, call  1]
+main pos:8 params:0 var:0 -> 0
+[push  4608083138725491507, push  1, itof, add_f, push  4613937818241073152, add_f, push  4608083138725491507, push  4608083138725491507, sub_f, push  4608083138725491507, push  4608083138725491507, div_f, ret]

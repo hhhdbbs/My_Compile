@@ -27,12 +27,18 @@ public enum TokenType {
     INT_KW,
     /** double */
     DOUBLE_KW,
+    /** boolean */
+    BOOLEAN_KW,
     /** void */
     VOID_KW,
 
     /** 字面量 */
     /** 无符号整数 */
     UNIT_LITERAL,
+    /** 浮点数 */
+    DOUBLE_LITERAL,
+    /** 布尔值 */
+    BOOLEAN_LITERAL,
     /** 字符串常量 */
     STRING_LITERAL,
     /** 字符常量 */

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OperatorTree {
+    public static List<TokenType> types=new ArrayList<>();
     public static List<Integer> stack=new ArrayList<>();
     //+ - * / ( ) < > <= >= == != -
     static int priority[][]={
@@ -61,65 +62,215 @@ public class OperatorTree {
         return -1;
     }
 
-    private static List<Instruction> addInstruction(int top) {
+    private static List<Instruction> addInstruction(int top) throws AnalyzeError {
         List<Instruction> instructions=new ArrayList<>();
+        int toptype=types.size()-1;
         if(top==0){
-            instructions.add(new Instruction(Operation.add_i));
+            if(types.get(toptype)==types.get(toptype-1)){
+                if (types.get(toptype)==TokenType.INT_KW)
+                    instructions.add(new Instruction(Operation.add_i));
+                else if(types.get(toptype)==TokenType.DOUBLE_KW)
+                    instructions.add(new Instruction(Operation.add_f));
+                else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+                types.remove(toptype);
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
         }else if(top==1){
-            instructions.add(new Instruction(Operation.sub_i));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype)==TokenType.INT_KW)
+                    instructions.add(new Instruction(Operation.sub_i));
+                else if(types.get(toptype)==TokenType.DOUBLE_KW)
+                    instructions.add(new Instruction(Operation.sub_f));
+                else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+                types.remove(toptype);
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
         }else if(top==2){
-            instructions.add(new Instruction(Operation.mul_i)) ;
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW)
+                    instructions.add(new Instruction(Operation.mul_i));
+                else if(types.get(toptype)==TokenType.DOUBLE_KW)
+                    instructions.add(new Instruction(Operation.mul_f));
+                else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+                types.remove(toptype);
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
         }else if (top==3){
-            instructions.add(new Instruction(Operation.div_i)) ;
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW)
+                    instructions.add(new Instruction(Operation.div_i)) ;
+                else if(types.get(toptype)==TokenType.DOUBLE_KW)
+                    instructions.add(new Instruction(Operation.div_f));
+                else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+                types.remove(toptype);
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
         }
         else if (top==6){
-            //true -1 false 0 1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.set_lt));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW){
+                    //true -1 false 0 1
+                    instructions.add(new Instruction(Operation.cmp_i));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.set_lt));
+                }else if(types.get(toptype)==TokenType.DOUBLE_KW){
+                    //true -1 false 0 1
+                    instructions.add(new Instruction(Operation.cmp_f));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.set_lt));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+                types.remove(toptype);
+                types.remove(toptype-1);
+                types.add(TokenType.BOOLEAN_KW);
+
         }else if (top==7){
-            //true 1 false 0 -1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.set_gt));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW) {
+                    //true 1 false 0 -1
+                    instructions.add(new Instruction(Operation.cmp_i));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.set_gt));
+                }
+                else if(types.get(toptype)==TokenType.DOUBLE_KW){
+                    //true 1 false 0 -1
+                    instructions.add(new Instruction(Operation.cmp_f));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.set_gt));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+            types.remove(toptype);
+            types.remove(toptype-1);
+            types.add(TokenType.BOOLEAN_KW);
         }else if (top==8){
-            //true -1 0 false 1
-            instructions.add(new Instruction(Operation.cmp_i));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW) {
+                    //true -1 0 false 1
+                    instructions.add(new Instruction(Operation.cmp_i));
 
-            //true 0 false 1
-            instructions.add(new Instruction(Operation.set_gt));
+                    //true 0 false 1
+                    instructions.add(new Instruction(Operation.set_gt));
 
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.not));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else if (types.get(toptype) == TokenType.DOUBLE_KW) {
+                    //true -1 0 false 1
+                    instructions.add(new Instruction(Operation.cmp_f));
+
+                    //true 0 false 1
+                    instructions.add(new Instruction(Operation.set_gt));
+
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+            types.remove(toptype);
+            types.remove(toptype-1);
+            types.add(TokenType.BOOLEAN_KW);
         }else if (top==9){
-            //true 1 0 false -1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 0 false 1
-            instructions.add(new Instruction(Operation.set_lt));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW) {
+                    //true 1 0 false -1
+                    instructions.add(new Instruction(Operation.cmp_i));
+                    //true 0 false 1
+                    instructions.add(new Instruction(Operation.set_lt));
 
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.not));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else if (types.get(toptype) == TokenType.DOUBLE_KW) {
+                    //true 1 0 false -1
+                    instructions.add(new Instruction(Operation.cmp_f));
+                    //true 0 false 1
+                    instructions.add(new Instruction(Operation.set_lt));
+
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+            types.remove(toptype);
+            types.remove(toptype-1);
+            types.add(TokenType.BOOLEAN_KW);
         }else if (top==10){
-            //true 0 false 1 -1
-            instructions.add(new Instruction(Operation.cmp_i));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW) {
+                    //true 0 false 1 -1
+                    instructions.add(new Instruction(Operation.cmp_i));
 
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.not));
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else if (types.get(toptype) == TokenType.DOUBLE_KW) {
+                    //true 0 false 1 -1
+                    instructions.add(new Instruction(Operation.cmp_f));
+
+                    //true 1 false 0
+                    instructions.add(new Instruction(Operation.not));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+            types.remove(toptype);
+            types.remove(toptype-1);
+            types.add(TokenType.BOOLEAN_KW);
         }else if (top==11){
-            //true 1 -1 false 0
-            instructions.add(new Instruction(Operation.cmp_i));
+            if(types.get(toptype)==types.get(toptype-1)) {
+                if (types.get(toptype) == TokenType.INT_KW) {
+                    //true 1 -1 false 0
+                    instructions.add(new Instruction(Operation.cmp_i));
+                }else if (types.get(toptype) == TokenType.DOUBLE_KW) {
+                    //true 1 -1 false 0
+                    instructions.add(new Instruction(Operation.cmp_f));
+                }else
+                    throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
+            }
+            else
+                throw new AnalyzeError(ErrorCode.WrongOparatorType, new Pos(-1,-1));
+            types.remove(toptype);
+            types.remove(toptype-1);
+            types.add(TokenType.BOOLEAN_KW);
         }else if (top==12){
-            //true 1 -1 false 0
-            instructions.add(new Instruction(Operation.neg_i));
+            if (types.get(toptype) == TokenType.INT_KW)
+                instructions.add(new Instruction(Operation.neg_i));
+            else if (types.get(toptype) == TokenType.DOUBLE_KW)
+                instructions.add(new Instruction(Operation.neg_f));
+            else
+                throw new AnalyzeError(ErrorCode.OpetateToBoolean, new Pos(-1,-1));
         }
         return instructions;
     }
 
-    public static List<Instruction> addAllReset(){
+    public static List<Instruction> addAllReset() throws AnalyzeError {
         List<Instruction> instructions=new ArrayList<>();
         for(int i=stack.size()-1;i>=0;i--){
             instructions.addAll(addInstruction(stack.get(i)));
             stack.remove(i);
+        }
+        if(types.size()==2&&types.get(0)!=types.get(1))
+            throw new AnalyzeError(ErrorCode.AssignToWrongType, new Pos(-1,-1));
+        else {
+            for(int i=0;i<types.size();i++)
+                types.remove(i);
         }
         return instructions;
     }
@@ -128,7 +279,7 @@ public class OperatorTree {
         return stack;
     }
 
-    public static List<Instruction> getNewOperator(TokenType tokenType){
+    public static List<Instruction> getNewOperator(TokenType tokenType) throws AnalyzeError {
         List<Instruction> instructions=new ArrayList<>();
         int next=getInt(tokenType);
         if (stack.size()<1){

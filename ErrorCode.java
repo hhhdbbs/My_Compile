@@ -4,5 +4,5 @@ public enum ErrorCode {
     NoBegin, NoEnd, NeedIdentifier, ConstantNeedValue, NoSemicolon, InvalidVariableDeclaration, IncompleteExpression,
     NotDeclared, AssignToConstant, DuplicateDeclaration, NotInitialized, InvalidAssignment, InvalidPrint, ExpectedToken,
     AssignedToFunction, CantGetProcAddress, ExpectNameToken,ExpectFuncToken,WrongParamsNum,NotGlobal,notHaveMainFunc,WrongReturn,
-    NotAllRoutesReturn
+    NotAllRoutesReturn,WrongOparatorType,OpetateToBoolean,AssignToWrongType
 }

@@ -309,5 +309,4 @@ public class Table {
         throw new AnalyzeError(ErrorCode.ExpectFuncToken, token.getStartPos());
     }
 
-
 }

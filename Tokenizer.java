@@ -26,7 +26,7 @@ public class Tokenizer {
 
         char peek = it.peekChar();
         if (Character.isDigit(peek)) {
-           token= lexUInt();
+           token= lexUIntOrDouble();
         //    return lexUInt();
         } else if (peek=='\"') {
             token=lexSTRING_LITERAL();
@@ -48,7 +48,7 @@ public class Tokenizer {
     }
 
 
-    private Token lexUInt() throws TokenizeError {
+    private Token lexUIntOrDouble() throws TokenizeError {
         char peek;
         Pos startPos=it.currentPos(),endPos;
         Long value=(long)0;//in1=(long)1;
@@ -58,8 +58,40 @@ public class Tokenizer {
        //     if(value>(in1<<31)-1)
        //       throw new TokenizeError(ErrorCode.IntegerOverflow,it.currentPos());
         }
-        endPos=it.currentPos();
-        return new Token(TokenType.UNIT_LITERAL,new Long(value),startPos,endPos);
+        if(it.peekChar()=='.'){
+            it.nextChar();
+            double d=0.1;
+            peek = it.nextChar();
+            Double doublevalue=(double)value+d*Long.parseLong(String.valueOf(peek));
+            while (Character.isDigit(it.peekChar())){
+                d*=0.1;
+                peek = it.nextChar();
+                doublevalue=doublevalue+d*Long.parseLong(String.valueOf(peek));
+
+            }
+            if(it.peekChar()=='e'||it.peekChar()=='E'){
+                it.nextChar();
+                value=(long)0;//in1=(long)1;
+                peek = it.nextChar();
+                value=value*(long)10+Long.parseLong(String.valueOf(peek));
+                    while(Character.isDigit(it.peekChar())){
+                        peek = it.nextChar();
+                        value=value*(long)10+Long.parseLong(String.valueOf(peek));
+                        //     if(value>(in1<<31)-1)
+                        //       throw new TokenizeError(ErrorCode.IntegerOverflow,it.currentPos());
+                    }
+                    while (value>0){
+                        value--;
+                        doublevalue*=10;
+                    }
+            }
+            endPos=it.currentPos();
+            return new Token(TokenType.DOUBLE_LITERAL,doublevalue,startPos,endPos);
+        }else{
+            endPos=it.currentPos();
+            return new Token(TokenType.UNIT_LITERAL,new Long(value),startPos,endPos);
+        }
+
         // 请填空：
         // 直到查看下一个字符不是数字为止:
         // -- 前进一个字符，并存储这个字符
@@ -152,19 +184,13 @@ public class Tokenizer {
             return new Token(TokenType.CONTINUE_KW,value,startPos,endPos);
         else if(value.equals("int"))
             return new Token(TokenType.INT_KW,value,startPos,endPos);
+        else if(value.equals("double"))
+            return new Token(TokenType.DOUBLE_KW,value,startPos,endPos);
         else if(value.equals("void"))
             return new Token(TokenType.VOID_KW,value,startPos,endPos);
         
         return new Token(TokenType.IDENT,value,startPos,endPos);
-        // 请填空：
-        // 直到查看下一个字符不是数字或字母为止:
-        // -- 前进一个字符，并存储这个字符
-        //
-        // 尝试将存储的字符串解释为关键字
-        // -- 如果是关键字，则返回关键字类型的 token
-        // -- 否则，返回标识符
-        //
-        // Token 的 Value 应填写标识符或关键字的字符串
+
     }
 
     private Token lexOperatorOrUnknown() throws TokenizeError {
