@@ -689,53 +689,7 @@ public final class Analyser {
         Instruction b;
         instructions.addAll(analyseExpr());
         instructions.addAll(OperatorTree.addAllReset());
-    /*    if(nextIf(TokenType.EQ)!=null){
-            instructions.addAll(analyseExpr());
-            //true 0 false 1 -1
-            instructions.add(new Instruction(Operation.cmp_i));
-
-            b=new Instruction(Operation.br_false,(long)-1);
-        }else if(nextIf(TokenType.NEQ)!=null){
-            instructions.addAll(analyseExpr());
-            //true 1 -1 false 0
-            instructions.add(new Instruction(Operation.cmp_i));
-
-            b=new Instruction(Operation.br_true,(long)-1);
-        }else if(nextIf(TokenType.LT)!=null){
-            instructions.addAll(analyseExpr());
-            //true -1 false 0 1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.set_lt));
-
-            b=new Instruction(Operation.br_true,(long)-1);
-        }else if(nextIf(TokenType.GT)!=null){
-            instructions.addAll(analyseExpr());
-            //true 1 false 0 -1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 1 false 0
-            instructions.add(new Instruction(Operation.set_gt));
-
-            b=new Instruction(Operation.br_true,(long)-1);
-        }else if(nextIf(TokenType.LE)!=null){
-            instructions.addAll(analyseExpr());
-            //true -1 0 false 1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 0 false 1
-            instructions.add(new Instruction(Operation.set_gt));
-
-            b=new Instruction(Operation.br_false,(long)-1);
-        }else if(nextIf(TokenType.GE)!=null){
-            instructions.addAll(analyseExpr());
-            //true 1 0 false -1
-            instructions.add(new Instruction(Operation.cmp_i));
-            //true 0 false 1
-            instructions.add(new Instruction(Operation.set_lt));
-
-            b=new Instruction(Operation.br_false,(long)-1);
-        }else*/{
-            b=new Instruction(Operation.br_true,(long)-1);
-        }
+        b=new Instruction(Operation.br_true,(long)-1);
         booleanTree.setInstructions(instructions);
         booleanTree.setOffset(b);
         return booleanTree;
