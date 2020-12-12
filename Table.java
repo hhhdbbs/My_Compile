@@ -61,7 +61,7 @@ public class Table {
 
         this.symbolEntries.add(new SymbolEntry("putstr",NameType.Proc, TokenType.VOID_KW,1,true,true,0));
         FunctionTable putstr=new FunctionTable("putstr",getGlobalId(new Token(TokenType.IDENT,"putstr",new Pos(-1,-1),new Pos(-1,-1))), TokenType.VOID_KW);
-        putstr.getSymbolEntries().add(new SymbolEntry("",NameType.Params, TokenType.STRING_LITERAL,2,false,true,0));
+        putstr.getSymbolEntries().add(new SymbolEntry("",NameType.Params, TokenType.INT_KW,2,false,true,0));
         this.outFunctionTables.add(putstr);
 
         this.symbolEntries.add(new SymbolEntry("putln",NameType.Proc, TokenType.VOID_KW,1,true,true,0));
