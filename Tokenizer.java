@@ -43,7 +43,7 @@ public class Tokenizer {
            token= lexOperatorOrUnknown();
        }
        if (token.getTokenType()!=TokenType.EOF)
-            System.out.println(token.getValueString());
+            System.out.println(token.getValue());
        return token;
     }
 
@@ -102,7 +102,7 @@ public class Tokenizer {
 
             }
             endPos=it.currentPos();
-            return new Token(TokenType.DOUBLE_LITERAL,doublevalue,startPos,endPos);
+            return new Token(TokenType.DOUBLE_LITERAL,new Double(doublevalue),startPos,endPos);
         }else{
             endPos=it.currentPos();
             return new Token(TokenType.UNIT_LITERAL,new Long(value),startPos,endPos);
