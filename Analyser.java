@@ -548,7 +548,7 @@ public final class Analyser {
         }
 
         if(check(TokenType.AS_KW)){
-            instructions.addAll(analyseAsExpr());//没有语句
+            instructions.addAll(analyseAsExpr());
         }
         if(checkBinaryOperator()){
             instructions.addAll(analyseOperatorExpr());
