@@ -1,7 +1,7 @@
-fn dd(x:int)->double{
+fn run(x:int)->double{
+let y:double;
 return -x as double;
 }
-fn main()->double{
-dd(1);
-return 10.0;
+fn main()->void{
+putdouble(run(1));
 }

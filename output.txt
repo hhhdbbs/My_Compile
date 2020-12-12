@@ -1,17 +1,38 @@
-Line: -1 Column: -1 Type: IDENT Value: getint
-Line: -1 Column: -1 Type: IDENT Value: getdouble
-Line: -1 Column: -1 Type: IDENT Value: getchar
-Line: -1 Column: -1 Type: IDENT Value: putint
-Line: -1 Column: -1 Type: IDENT Value: putdouble
-Line: -1 Column: -1 Type: IDENT Value: putchar
-Line: -1 Column: -1 Type: IDENT Value: putstr
-Line: -1 Column: -1 Type: IDENT Value: putln
-Line: 0 Column: 3 Type: IDENT Value: dd
-Line: 3 Column: 3 Type: IDENT Value: main
-Line: -1 Column: -1 Type: IDENT Value: _start
-_start pos:10 params:0 var:0 -> 0
-[stackalloc  1, call  2]
-dd pos:8 params:1 var:0 -> 1
-[arga  0, arga  1, load_64, neg_i, itof, store_64, ret, ret]
-main pos:9 params:0 var:0 -> 1
-[stackalloc  1, push  1, call  1, arga  0, push  4621819117588971520, store_64, ret, ret]
+Line: 0 Column: 0 Type: fn Value: fn
+Line: 0 Column: 3 Type: IDENT Value: run
+Line: 0 Column: 6 Type: L_PAREN Value: (
+Line: 0 Column: 7 Type: IDENT Value: x
+Line: 0 Column: 8 Type: COLON Value: :
+Line: 0 Column: 9 Type: int Value: int
+Line: 0 Column: 12 Type: R_PAREN Value: )
+Line: 0 Column: 13 Type: ARROW Value: ->
+Line: 0 Column: 15 Type: double Value: double
+Line: 0 Column: 21 Type: L_BRACE Value: {
+Line: 1 Column: 0 Type: let Value: let
+Line: 1 Column: 4 Type: IDENT Value: y
+Line: 1 Column: 5 Type: COLON Value: :
+Line: 1 Column: 6 Type: double Value: double
+Line: 1 Column: 12 Type: SEMICOLON Value: ;
+Line: 2 Column: 0 Type: return Value: return
+Line: 2 Column: 7 Type: MINUS Value: -
+Line: 2 Column: 8 Type: IDENT Value: x
+Line: 2 Column: 10 Type: as Value: as
+Line: 2 Column: 13 Type: double Value: double
+Line: 2 Column: 19 Type: SEMICOLON Value: ;
+Line: 3 Column: 0 Type: R_BRACE Value: }
+Line: 4 Column: 0 Type: fn Value: fn
+Line: 4 Column: 3 Type: IDENT Value: main
+Line: 4 Column: 7 Type: L_PAREN Value: (
+Line: 4 Column: 8 Type: R_PAREN Value: )
+Line: 4 Column: 9 Type: ARROW Value: ->
+Line: 4 Column: 11 Type: void Value: void
+Line: 4 Column: 15 Type: L_BRACE Value: {
+Line: 5 Column: 0 Type: IDENT Value: putdouble
+Line: 5 Column: 9 Type: L_PAREN Value: (
+Line: 5 Column: 10 Type: IDENT Value: run
+Line: 5 Column: 13 Type: L_PAREN Value: (
+Line: 5 Column: 14 Type: UNIT_LITERAL Value: 1
+Line: 5 Column: 15 Type: R_PAREN Value: )
+Line: 5 Column: 16 Type: R_PAREN Value: )
+Line: 5 Column: 17 Type: SEMICOLON Value: ;
+Line: 6 Column: 0 Type: R_BRACE Value: }
