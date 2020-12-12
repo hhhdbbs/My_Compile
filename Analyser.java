@@ -590,9 +590,13 @@ public final class Analyser {
 
     private List<Instruction> analyseCallParamList(List<TokenType> tokenTypes) throws CompileError {
         List<Instruction> instructions=new ArrayList<>();
+        TokenType ty;
         instructions.addAll(OperatorTree.getNewOperator(TokenType.L_PAREN));
         instructions.addAll(analyseExpr());
         instructions.addAll(OperatorTree.getNewOperator(TokenType.R_PAREN));
+        ty=OperatorTree.types.get(OperatorTree.types.size()-1);
+        if(ty!=tokenTypes.get(0))
+            throw new AnalyzeError(ErrorCode.WrongParamsType, new Pos(-1,-1));
         OperatorTree.types.remove(OperatorTree.types.size()-1);
       //  instructions.addAll(OperatorTree.addAllReset());
         int i;
@@ -602,6 +606,8 @@ public final class Analyser {
                 instructions.addAll(OperatorTree.getNewOperator(TokenType.L_PAREN));
                 instructions.addAll(analyseExpr());
                 instructions.addAll(OperatorTree.getNewOperator(TokenType.R_PAREN));
+                if(ty!=tokenTypes.get(i))
+                    throw new AnalyzeError(ErrorCode.WrongParamsType, new Pos(-1,-1));
                 OperatorTree.types.remove(OperatorTree.types.size()-1);
             //    instructions.addAll(OperatorTree.addAllReset());
             }
@@ -683,7 +689,7 @@ public final class Analyser {
         Instruction b;
         instructions.addAll(analyseExpr());
         instructions.addAll(OperatorTree.addAllReset());
-        if(nextIf(TokenType.EQ)!=null){
+    /*    if(nextIf(TokenType.EQ)!=null){
             instructions.addAll(analyseExpr());
             //true 0 false 1 -1
             instructions.add(new Instruction(Operation.cmp_i));
@@ -727,7 +733,7 @@ public final class Analyser {
             instructions.add(new Instruction(Operation.set_lt));
 
             b=new Instruction(Operation.br_false,(long)-1);
-        }else{
+        }else*/{
             b=new Instruction(Operation.br_true,(long)-1);
         }
         booleanTree.setInstructions(instructions);
