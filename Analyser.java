@@ -689,7 +689,7 @@ public final class Analyser {
         Instruction b;
         instructions.addAll(analyseExpr());
         instructions.addAll(OperatorTree.addAllReset());
-    /*    if(nextIf(TokenType.EQ)!=null){
+        if(nextIf(TokenType.EQ)!=null){
             instructions.addAll(analyseExpr());
             //true 0 false 1 -1
             instructions.add(new Instruction(Operation.cmp_i));
@@ -733,7 +733,7 @@ public final class Analyser {
             instructions.add(new Instruction(Operation.set_lt));
 
             b=new Instruction(Operation.br_false,(long)-1);
-        }else*/{
+        }else{
             b=new Instruction(Operation.br_true,(long)-1);
         }
         booleanTree.setInstructions(instructions);
