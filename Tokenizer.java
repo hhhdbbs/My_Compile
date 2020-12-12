@@ -75,6 +75,8 @@ public class Tokenizer {
                 if (it.peekChar()=='-'){
                     flag=true;
                     it.nextChar();
+                }else if (it.peekChar()=='+'){
+                    it.nextChar();
                 }
 
                 value=(long)0;//in1=(long)1;

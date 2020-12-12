@@ -706,7 +706,7 @@ public final class Analyser {
     //    OperatorTree.types.remove(OperatorTree.types.size()-1);
         if(ty.getTokenType()==TokenType.INT_KW&&topty==TokenType.DOUBLE_KW){
             List<Integer> stack=OperatorTree.getStack();
-            if(stack.get(stack.size()-1)==12){
+            if(stack.size()>0&&stack.get(stack.size()-1)==12){
                 stack.remove(stack.size()-1);
                 instructions.add(new Instruction(Operation.neg_f));
             }
@@ -715,7 +715,7 @@ public final class Analyser {
             OperatorTree.types.add(TokenType.INT_KW);
         }else if(ty.getTokenType()==TokenType.DOUBLE_KW&&topty==TokenType.INT_KW){
             List<Integer> stack=OperatorTree.getStack();
-            if(stack.get(stack.size()-1)==12){
+            if(stack.size()>0&&stack.get(stack.size()-1)==12){
                 stack.remove(stack.size()-1);
                 instructions.add(new Instruction(Operation.neg_i));
             }
