@@ -57,7 +57,7 @@ public class OperatorTree {
         else if(tokenType== TokenType.NEQ){
             return 11;
         }else if(tokenType== TokenType.NEG){
-            return 12;
+                return 12;
         }
         return -1;
     }
